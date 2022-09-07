@@ -1,0 +1,32 @@
+name: manage-azure-policy-6cb08fec
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/Azure_API_for_FHIR_muss_einen_kundenseitig_verwalteten_Schlüssel_zum_Verschlüsseln_ruhender_Daten_verwenden_051cba44-2429-45b9-9649-46cec11c7119/**'
+#      - .github/workflows/manage-azure-policy-6cb08fec.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_6cb08fec}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/Azure_API_for_FHIR_muss_einen_kundenseitig_verwalteten_Schlüssel_zum_Verschlüsseln_ruhender_Daten_verwenden_051cba44-2429-45b9-9649-46cec11c7119/**

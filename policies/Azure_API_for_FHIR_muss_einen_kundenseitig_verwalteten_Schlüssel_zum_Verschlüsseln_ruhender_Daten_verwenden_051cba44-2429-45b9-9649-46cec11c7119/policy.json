@@ -1,0 +1,46 @@
+{
+ "properties": {
+  "displayName": "Azure API for FHIR muss einen kundenseitig verwalteten Schlüssel zum Verschlüsseln ruhender Daten verwenden",
+  "policyType": "BuiltIn",
+  "mode": "Indexed",
+  "description": "Verwenden Sie einen kundenseitig verwalteten Schlüssel, um die Verschlüsselung ruhender Daten in Azure API for FHIR zu steuern, wenn dies gesetzlich vorgeschrieben ist oder als Konformitätsanforderung gilt. Kundenseitig verwaltete Schlüssel bieten außerdem eine Mehrfachverschlüsselung, indem eine zweite Verschlüsselungsebene zusätzlich zur Standardverschlüsselung mit dienstseitig verwalteten Schlüsseln hinzugefügt wird.",
+  "metadata": {
+   "version": "1.0.1",
+   "category": "API for FHIR"
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Auswirkung",
+     "description": "Hiermit wird die Ausführung der Richtlinie aktiviert oder deaktiviert."
+    },
+    "allowedValues": [
+     "audit",
+     "disabled"
+    ],
+    "defaultValue": "audit"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.HealthcareApis/services"
+     },
+     {
+      "field": "Microsoft.HealthcareApis/services/cosmosDbConfiguration.keyVaultKeyUri",
+      "exists": "false"
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/providers/Microsoft.Authorization/policyDefinitions/051cba44-2429-45b9-9649-46cec11c7119",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "051cba44-2429-45b9-9649-46cec11c7119"
+}
